@@ -30,6 +30,8 @@ stages:
   displayName: Build stage
   jobs:
   - job: BuildJob
+    strategy:
+      parallel: 1
     pool:
       vmImage: $(vmImageName)
     steps:
