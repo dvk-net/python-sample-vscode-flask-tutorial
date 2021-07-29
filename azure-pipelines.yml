@@ -14,7 +14,7 @@ variables:
   webAppName: 'testflask1234'
 
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  vmImageName: 'Default'
 
   # Environment name
   environmentName: 'testflask1234'
@@ -30,10 +30,10 @@ stages:
   displayName: Build stage
   jobs:
   - job: BuildJob
-    strategy:
-      parallel: 1
     pool:
-      vmImage: $(vmImageName)
+      name: Default
+      demands:
+        - agent.name -equals dvk-test
     steps:
     - task: UsePythonVersion@0
       inputs:
@@ -69,7 +69,9 @@ stages:
   jobs:
   - deployment: DeploymentJob
     pool:
-      vmImage: $(vmImageName)
+      name: Default
+      demands:
+        - agent.name -equals dvk-test
     environment: $(environmentName)
     strategy:
       runOnce:
